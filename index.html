@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Smart Home</title>
+<link rel="stylesheet" href="./style.css">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+</style>
+</head>
+<body>
+<div id="phone">
+
+<!-- ── STATUS BAR ── -->
+<div id="statusbar">
+  <span class="sb-time" id="sb-clock">9:41</span>
+  <div class="sb-right">
+    <svg viewBox="0 0 24 24"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M17 7l4.5 4.5-4.5 4.5M7 7l-4.5 4.5L7 16"/><rect x="2" y="9" width="20" height="6" rx="1" fill="none"/><path d="M22 11h1v2h-1z"/></svg>
+    <span class="sb-bat">87%</span>
+  </div>
+</div>
+
+<!-- ── CONTENT ── -->
+<div id="content">
+
+<div class="screen active" id="screen-home">
+  <!-- topbar -->
+  <div class="topbar">
+    <div class="menu-btn"><span></span><span></span><span></span></div>
+    <div class="topbar-title">Home Overview</div>
+    <div class="notif-btn" onclick="switchTo('water')"><i class="fa-solid fa-bell"></i><div class="notif-badge">2</div></div>
+  </div>
+
+  <!-- HOUSE SIMULATION -->
+  <div class="house-card">
+    <div class="house-label">FLOOR PLAN · LIVE</div>
+    <div class="house-mode-badge alert" id="house-badge">⚠ 1 ALERT</div>
+
+    <div class="house-svg">
+      <svg width="100%" viewBox="0 0 680 430" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <pattern id="wood" x="0" y="0" width="24" height="8" patternUnits="userSpaceOnUse">
+    <rect width="24" height="8" fill="#1a1208"/>
+    <rect x="0" y="0" width="24" height="1" fill="rgba(255,255,255,.04)"/>
+    <rect x="0" y="4" width="24" height="1" fill="rgba(0,0,0,.12)"/>
+    <rect x="12" y="1" width="1" height="3" fill="rgba(0,0,0,.08)"/>
+  </pattern>
+  <pattern id="tile" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+    <rect width="14" height="14" fill="#0e1820"/>
+    <rect x="1" y="1" width="12" height="12" fill="#121e2a" rx="1"/>
+  </pattern>
+  <pattern id="kitchen_tile" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+    <rect width="12" height="12" fill="#0f1510"/>
+    <rect x="1" y="1" width="10" height="10" fill="#141a13" rx="1"/>
+  </pattern>
+  <pattern id="carpet" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+    <rect width="6" height="6" fill="#160d20"/>
+    <rect x="0" y="0" width="3" height="3" fill="rgba(180,130,255,.03)"/>
+    <rect x="3" y="3" width="3" height="3" fill="rgba(180,130,255,.03)"/>
+  </pattern>
+  <radialGradient id="g_liv" cx="50%" cy="50%" r="55%">
+    <stop offset="0%" stop-color="#00e87a" stop-opacity=".18"/>
+    <stop offset="100%" stop-color="#00e87a" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g_bed" cx="50%" cy="50%" r="55%">
+    <stop offset="0%" stop-color="#4db8ff" stop-opacity=".16"/>
+    <stop offset="100%" stop-color="#4db8ff" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g_bath" cx="50%" cy="50%" r="55%">
+    <stop offset="0%" stop-color="#ff2040" stop-opacity=".35"/>
+    <stop offset="100%" stop-color="#ff2040" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g_kit" cx="50%" cy="50%" r="55%">
+    <stop offset="0%" stop-color="#ff7a00" stop-opacity=".18"/>
+    <stop offset="100%" stop-color="#ff7a00" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g_hall" cx="50%" cy="50%" r="55%">
+    <stop offset="0%" stop-color="#ffe240" stop-opacity=".14"/>
+    <stop offset="100%" stop-color="#ffe240" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g_lamp" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#ffe580" stop-opacity=".6"/>
+    <stop offset="100%" stop-color="#ffe580" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g_tv" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#60c0ff" stop-opacity=".35"/>
+    <stop offset="100%" stop-color="#60c0ff" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g_stove" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#ff6000" stop-opacity=".5"/>
+    <stop offset="100%" stop-color="#ff6000" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="blur3"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="glow">
+    <feGaussianBlur stdDeviation="2.5" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+
+<!-- OUTER BUILDING -->
+<ellipse cx="340" cy="418" rx="290" ry="10" fill="rgba(0,0,0,.5)"/>
+<rect x="28" y="28" width="540" height="358" rx="14" fill="#0d0d12" stroke="rgba(255,255,255,.22)" stroke-width="3"/>
+<rect x="30" y="30" width="536" height="354" rx="12" fill="#0d0d12" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+
+<!-- LIVING ROOM -->
+<rect x="31" y="31" width="238" height="168" rx="2" fill="url(#wood)"/>
+<rect x="31" y="31" width="238" height="168" fill="url(#g_liv)"/>
+<rect x="31" y="31" width="238" height="5" fill="rgba(0,230,120,.08)"/>
+<rect x="31" y="31" width="5" height="168" fill="rgba(0,230,120,.06)"/>
+<rect x="50" y="78" width="90" height="30" rx="8" fill="#1e2e20" stroke="rgba(0,200,80,.2)" stroke-width="1"/>
+<rect x="50" y="78" width="90" height="10" rx="5" fill="#253426" stroke="rgba(0,200,80,.15)" stroke-width=".8"/>
+<rect x="50" y="82" width="14" height="26" rx="5" fill="#1c2c1e" stroke="rgba(0,200,80,.15)" stroke-width=".8"/>
+<rect x="126" y="82" width="14" height="26" rx="5" fill="#1c2c1e" stroke="rgba(0,200,80,.15)" stroke-width=".8"/>
+<rect x="66" y="84" width="26" height="20" rx="4" fill="#213023" stroke="rgba(0,180,70,.12)" stroke-width=".5"/>
+<rect x="94" y="84" width="26" height="20" rx="4" fill="#213023" stroke="rgba(0,180,70,.12)" stroke-width=".5"/>
+<rect x="70" y="118" width="46" height="28" rx="5" fill="#16201a" stroke="rgba(0,180,70,.15)" stroke-width=".8"/>
+<ellipse cx="88" cy="132" rx="8" ry="5" fill="rgba(0,180,70,.08)" stroke="rgba(0,200,80,.15)" stroke-width=".5"/>
+<rect x="100" y="128" width="10" height="6" rx="2" fill="rgba(0,180,70,.1)"/>
+<rect x="196" y="42" width="62" height="38" rx="4" fill="#101820" stroke="rgba(100,200,255,.25)" stroke-width="1"/>
+<rect x="198" y="44" width="58" height="32" rx="3" fill="url(#g_tv)" opacity=".8"/>
+<rect x="198" y="44" width="58" height="32" rx="3" fill="rgba(60,140,255,.08)"/>
+<rect x="222" y="80" width="12" height="6" rx="2" fill="#151515" stroke="rgba(255,255,255,.08)" stroke-width=".5"/>
+<rect x="216" y="85" width="24" height="3" rx="1.5" fill="#111"/>
+<rect x="210" y="130" width="12" height="38" rx="3" fill="#1a1a1a" stroke="rgba(255,220,80,.15)" stroke-width=".5"/>
+<ellipse cx="216" cy="130" rx="16" ry="8" fill="url(#g_lamp)"/>
+<ellipse cx="216" cy="130" rx="10" ry="5" fill="rgba(255,220,80,.15)" stroke="rgba(255,220,80,.3)" stroke-width=".8"/>
+<rect x="48" y="76" width="152" height="80" rx="10" fill="rgba(0,180,70,.04)" stroke="rgba(0,180,70,.1)" stroke-width=".5" stroke-dasharray="4,3"/>
+<circle cx="136" cy="185" r="7" fill="rgba(0,230,120,.2)" filter="url(#blur3)">
+  <animate attributeName="r" values="7;13;7" dur="2s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="1;.2;1" dur="2s" repeatCount="indefinite"/>
+</circle>
+<circle cx="136" cy="185" r="4" fill="#00e87a" filter="url(#glow)"/>
+<circle cx="136" cy="185" r="1.5" fill="white"/>
+<text x="40" y="44" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="rgba(0,230,120,.7)" letter-spacing="1.5">LIVING ROOM</text>
+<text x="40" y="56" font-family="Inter,sans-serif" font-size="8" fill="rgba(0,200,80,.4)">24°C · AQI 35</text>
+
+<!-- BEDROOM -->
+<rect x="271" y="31" width="297" height="168" rx="2" fill="url(#carpet)"/>
+<rect x="271" y="31" width="297" height="168" fill="url(#g_bed)"/>
+<rect x="271" y="31" width="297" height="5" fill="rgba(70,180,255,.08)"/>
+<rect x="563" y="31" width="5" height="168" fill="rgba(70,180,255,.06)"/>
+<rect x="312" y="60" width="148" height="100" rx="10" fill="#0e1926" stroke="rgba(60,150,255,.25)" stroke-width="1.2"/>
+<rect x="312" y="60" width="148" height="26" rx="10" fill="#111e30" stroke="rgba(60,150,255,.2)" stroke-width="1"/>
+<rect x="320" y="66" width="38" height="18" rx="6" fill="#162033" stroke="rgba(80,160,255,.25)" stroke-width=".8"/>
+<rect x="366" y="66" width="38" height="18" rx="6" fill="#162033" stroke="rgba(80,160,255,.25)" stroke-width=".8"/>
+<rect x="414" y="66" width="38" height="18" rx="6" fill="#162033" stroke="rgba(80,160,255,.2)" stroke-width=".8"/>
+<rect x="314" y="86" width="144" height="72" rx="6" fill="#0f1c2e" stroke="rgba(60,140,255,.18)" stroke-width=".8"/>
+<line x1="340" y1="86" x2="340" y2="158" stroke="rgba(60,150,255,.08)" stroke-width=".8"/>
+<line x1="380" y1="86" x2="380" y2="158" stroke="rgba(60,150,255,.08)" stroke-width=".8"/>
+<line x1="420" y1="86" x2="420" y2="158" stroke="rgba(60,150,255,.08)" stroke-width=".8"/>
+<rect x="285" y="80" width="24" height="30" rx="4" fill="#0d1824" stroke="rgba(60,140,255,.18)" stroke-width=".8"/>
+<ellipse cx="297" cy="78" rx="14" ry="7" fill="url(#g_lamp)"/>
+<ellipse cx="297" cy="78" rx="8" ry="4" fill="rgba(255,220,80,.2)" stroke="rgba(255,220,80,.35)" stroke-width=".8"/>
+<rect x="294" y="78" width="6" height="10" rx="2" fill="#141414"/>
+<rect x="463" y="80" width="24" height="30" rx="4" fill="#0d1824" stroke="rgba(60,140,255,.18)" stroke-width=".8"/>
+<rect x="490" y="40" width="68" height="90" rx="6" fill="#0b1520" stroke="rgba(60,130,255,.2)" stroke-width="1"/>
+<line x1="524" y1="40" x2="524" y2="130" stroke="rgba(60,130,255,.1)" stroke-width=".8"/>
+<circle cx="516" cy="86" r="3" fill="rgba(60,140,255,.25)" stroke="rgba(60,150,255,.3)" stroke-width=".6"/>
+<circle cx="532" cy="86" r="3" fill="rgba(60,140,255,.25)" stroke="rgba(60,150,255,.3)" stroke-width=".6"/>
+<rect x="335" y="32" width="100" height="16" rx="4" fill="rgba(255,230,80,.08)" stroke="rgba(255,230,80,.25)" stroke-width="1"/>
+<line x1="385" y1="32" x2="385" y2="48" stroke="rgba(255,230,80,.15)" stroke-width=".8"/>
+<rect x="335" y="33" width="100" height="5" fill="rgba(255,240,120,.06)"/>
+<circle cx="420" cy="165" r="6" fill="rgba(70,180,255,.2)" filter="url(#blur3)">
+  <animate attributeName="r" values="6;11;6" dur="2.8s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="1;.25;1" dur="2.8s" repeatCount="indefinite"/>
+</circle>
+<circle cx="420" cy="165" r="3.5" fill="#4db8ff" filter="url(#glow)"/>
+<circle cx="420" cy="165" r="1.2" fill="white"/>
+<text x="281" y="44" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="rgba(70,180,255,.7)" letter-spacing="1.5">BEDROOM</text>
+<text x="281" y="56" font-family="Inter,sans-serif" font-size="8" fill="rgba(60,160,255,.4)">22°C · Quiet</text>
+
+<!-- KITCHEN -->
+<rect x="31" y="201" width="198" height="180" rx="2" fill="url(#kitchen_tile)"/>
+<rect x="31" y="201" width="198" height="180" fill="url(#g_kit)"/>
+<rect x="31" y="196" width="198" height="5" fill="rgba(255,120,0,.06)"/>
+<rect x="44" y="220" width="172" height="22" rx="4" fill="#111a0e" stroke="rgba(255,120,0,.2)" stroke-width="1"/>
+<rect x="44" y="220" width="172" height="6" fill="rgba(255,140,0,.06)"/>
+<rect x="50" y="226" width="60" height="14" rx="3" fill="#0e1a0c" stroke="rgba(255,100,0,.2)" stroke-width=".8"/>
+<circle cx="65" cy="233" r="7" fill="none" stroke="rgba(255,80,0,.3)" stroke-width="1.2"/>
+<circle cx="65" cy="233" r="4" fill="none" stroke="rgba(255,80,0,.5)" stroke-width=".8"/>
+<circle cx="65" cy="233" r="1.5" fill="rgba(255,80,0,.6)"/>
+<circle cx="97" cy="233" r="7" fill="none" stroke="rgba(255,100,0,.25)" stroke-width="1.2"/>
+<circle cx="97" cy="233" r="4" fill="none" stroke="rgba(255,100,0,.35)" stroke-width=".8"/>
+<circle cx="97" cy="233" r="1.5" fill="rgba(255,100,0,.4)"/>
+<circle cx="65" cy="233" r="12" fill="url(#g_stove)" opacity=".6"/>
+<rect x="128" y="222" width="42" height="16" rx="4" fill="#0c1810" stroke="rgba(0,180,255,.2)" stroke-width=".8"/>
+<ellipse cx="149" cy="230" rx="14" ry="5" fill="rgba(0,160,255,.07)" stroke="rgba(0,160,255,.15)" stroke-width=".6"/>
+<circle cx="149" cy="224" r="2" fill="rgba(150,180,200,.3)" stroke="rgba(150,200,220,.3)" stroke-width=".5"/>
+<rect x="175" y="210" width="38" height="68" rx="5" fill="#0c1810" stroke="rgba(255,120,0,.2)" stroke-width="1"/>
+<line x1="175" y1="244" x2="213" y2="244" stroke="rgba(255,120,0,.12)" stroke-width=".8"/>
+<rect x="183" y="222" width="6" height="18" rx="3" fill="rgba(255,140,0,.2)" stroke="rgba(255,140,0,.3)" stroke-width=".5"/>
+<rect x="183" y="248" width="6" height="14" rx="3" fill="rgba(255,140,0,.2)" stroke="rgba(255,140,0,.3)" stroke-width=".5"/>
+<rect x="52" y="300" width="100" height="60" rx="6" fill="#0e1a0a" stroke="rgba(255,120,0,.15)" stroke-width=".8"/>
+<rect x="38" y="310" width="12" height="36" rx="4" fill="#0c1508" stroke="rgba(255,100,0,.12)" stroke-width=".6"/>
+<rect x="154" y="310" width="12" height="36" rx="4" fill="#0c1508" stroke="rgba(255,100,0,.12)" stroke-width=".6"/>
+<rect x="72" y="288" width="36" height="10" rx="4" fill="#0c1508" stroke="rgba(255,100,0,.1)" stroke-width=".6"/>
+<rect x="72" y="362" width="36" height="10" rx="4" fill="#0c1508" stroke="rgba(255,100,0,.1)" stroke-width=".6"/>
+<circle cx="80" cy="330" r="8" fill="rgba(255,120,0,.06)" stroke="rgba(255,120,0,.15)" stroke-width=".6"/>
+<circle cx="120" cy="330" r="8" fill="rgba(255,120,0,.06)" stroke="rgba(255,120,0,.15)" stroke-width=".6"/>
+<circle cx="130" cy="366" r="6" fill="rgba(255,120,0,.2)" filter="url(#blur3)">
+  <animate attributeName="r" values="6;10;6" dur="3s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="1;.3;1" dur="3s" repeatCount="indefinite"/>
+</circle>
+<circle cx="130" cy="366" r="3.5" fill="#ff7a00" filter="url(#glow)"/>
+<circle cx="130" cy="366" r="1.2" fill="white"/>
+<text x="44" y="214" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="rgba(255,140,0,.7)" letter-spacing="1.5">KITCHEN</text>
+<text x="44" y="226" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,120,0,.4)">28°C · Gas OK</text>
+
+<!-- HALLWAY -->
+<rect x="231" y="201" width="126" height="180" rx="2" fill="url(#wood)" opacity=".7"/>
+<rect x="231" y="201" width="126" height="180" fill="url(#g_hall)"/>
+<rect x="254" y="300" width="80" height="44" rx="8" fill="rgba(255,220,50,.05)" stroke="rgba(255,220,50,.15)" stroke-width=".8" stroke-dasharray="4,3"/>
+<rect x="260" y="306" width="68" height="32" rx="5" fill="none" stroke="rgba(255,220,50,.08)" stroke-width=".5"/>
+<rect x="268" y="352" width="52" height="26" rx="4" fill="#141c10" stroke="rgba(255,200,0,.25)" stroke-width="1"/>
+<circle cx="314" cy="365" r="3.5" fill="rgba(255,200,50,.4)" stroke="rgba(255,220,80,.5)" stroke-width=".8"/>
+<rect x="266" y="350" width="56" height="30" rx="5" fill="none" stroke="rgba(255,200,0,.15)" stroke-width=".5"/>
+<circle cx="243" cy="225" r="3" fill="rgba(255,200,0,.2)" stroke="rgba(255,200,0,.3)" stroke-width=".6"/>
+<circle cx="256" cy="225" r="3" fill="rgba(255,200,0,.2)" stroke="rgba(255,200,0,.3)" stroke-width=".6"/>
+<circle cx="294" cy="270" r="5" fill="rgba(255,220,50,.18)" filter="url(#blur3)">
+  <animate attributeName="r" values="5;9;5" dur="4s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".8;.15;.8" dur="4s" repeatCount="indefinite"/>
+</circle>
+<circle cx="294" cy="270" r="3" fill="#ffe240" filter="url(#glow)"/>
+<circle cx="294" cy="270" r="1" fill="white"/>
+<text x="241" y="214" font-family="Inter,sans-serif" font-size="8" font-weight="700" fill="rgba(255,220,50,.6)" letter-spacing="1">HALLWAY</text>
+
+<!-- BATHROOM - LEAK -->
+<rect x="359" y="201" width="207" height="180" rx="2" fill="url(#tile)"/>
+<rect x="359" y="201" width="207" height="180" fill="url(#g_bath)"/>
+<rect x="359" y="201" width="207" height="180" rx="2" fill="none" stroke="rgba(255,30,60,.6)" stroke-width="2">
+  <animate attributeName="stroke-opacity" values=".6;.15;.6" dur="1.4s" repeatCount="indefinite"/>
+</rect>
+<rect x="375" y="222" width="105" height="50" rx="12" fill="#0a1820" stroke="rgba(255,40,60,.3)" stroke-width="1.2"/>
+<rect x="379" y="226" width="97" height="42" rx="9" fill="rgba(0,100,180,.12)" stroke="rgba(0,150,220,.15)" stroke-width=".6"/>
+<ellipse cx="427" cy="247" rx="28" ry="10" fill="none" stroke="rgba(0,150,220,.15)" stroke-width=".6">
+  <animate attributeName="rx" values="28;34;28" dur="2s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".5;0;.5" dur="2s" repeatCount="indefinite"/>
+</ellipse>
+<rect x="420" y="218" width="14" height="8" rx="3" fill="#151a22" stroke="rgba(180,200,220,.2)" stroke-width=".6"/>
+<rect x="487" y="210" width="70" height="75" rx="8" fill="#08141e" stroke="rgba(0,160,220,.2)" stroke-width="1"/>
+<ellipse cx="524" cy="218" rx="14" ry="4" fill="rgba(0,160,220,.15)" stroke="rgba(0,160,220,.3)" stroke-width=".8"/>
+<rect x="487" y="210" width="3" height="75" fill="rgba(100,200,255,.05)" stroke="rgba(100,200,255,.1)" stroke-width=".5"/>
+<circle cx="515" cy="240" r="1.5" fill="rgba(0,180,255,.4)">
+  <animate attributeName="cy" values="230;270" dur=".6s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="1;0" dur=".6s" repeatCount="indefinite"/>
+</circle>
+<circle cx="525" cy="240" r="1.5" fill="rgba(0,180,255,.3)">
+  <animate attributeName="cy" values="235;275" dur=".8s" begin=".2s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".8;0" dur=".8s" begin=".2s" repeatCount="indefinite"/>
+</circle>
+<circle cx="535" cy="240" r="1.2" fill="rgba(0,180,255,.35)">
+  <animate attributeName="cy" values="228;268" dur=".7s" begin=".4s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".9;0" dur=".7s" begin=".4s" repeatCount="indefinite"/>
+</circle>
+<ellipse cx="420" cy="342" rx="22" ry="16" fill="#091420" stroke="rgba(255,40,60,.2)" stroke-width="1"/>
+<rect x="398" y="328" width="44" height="10" rx="5" fill="#0c1a28" stroke="rgba(255,40,60,.15)" stroke-width=".8"/>
+<ellipse cx="420" cy="330" rx="18" ry="6" fill="#0a1826" stroke="rgba(255,40,60,.12)" stroke-width=".6"/>
+<ellipse cx="390" cy="300" rx="22" ry="16" fill="#091420" stroke="rgba(255,40,60,.2)" stroke-width="1"/>
+<ellipse cx="390" cy="300" rx="15" ry="10" fill="rgba(0,100,180,.1)" stroke="rgba(0,150,220,.12)" stroke-width=".6"/>
+<circle cx="390" cy="290" r="2.5" fill="rgba(180,200,220,.25)" stroke="rgba(180,200,220,.3)" stroke-width=".5"/>
+<circle cx="454" cy="340" r="11" fill="rgba(255,20,50,.3)" filter="url(#blur3)">
+  <animate attributeName="r" values="11;22;11" dur="1.1s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="1;.1;1" dur="1.1s" repeatCount="indefinite"/>
+</circle>
+<circle cx="454" cy="340" r="7" fill="rgba(255,20,50,.18)" stroke="rgba(255,40,60,.8)" stroke-width="2" filter="url(#glow)">
+  <animate attributeName="stroke-opacity" values="1;.3;1" dur="1.1s" repeatCount="indefinite"/>
+</circle>
+<circle cx="454" cy="340" r="4" fill="#ff2040" filter="url(#glow)"/>
+<circle cx="454" cy="340" r="1.5" fill="white"/>
+<ellipse cx="458" cy="351" rx="3" ry="4.5" fill="rgba(255,60,80,.8)">
+  <animate attributeName="cy" values="351;368;351" dur="1s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+</ellipse>
+<ellipse cx="450" cy="354" rx="2.5" ry="4" fill="rgba(255,80,100,.7)">
+  <animate attributeName="cy" values="354;371;354" dur="1.3s" begin=".35s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".8;0;.8" dur="1.3s" begin=".35s" repeatCount="indefinite"/>
+</ellipse>
+<ellipse cx="462" cy="356" rx="2" ry="3.5" fill="rgba(255,50,70,.6)">
+  <animate attributeName="cy" values="356;373;356" dur=".9s" begin=".7s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".7;0;.7" dur=".9s" begin=".7s" repeatCount="indefinite"/>
+</ellipse>
+<rect x="361" y="204" width="62" height="18" rx="5" fill="rgba(255,20,50,.7)"/>
+<text x="392" y="216" font-family="Inter,sans-serif" font-size="8.5" font-weight="700" fill="white" text-anchor="middle" letter-spacing=".5">LEAK</text>
+<text x="432" y="214" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="rgba(255,80,100,.7)" letter-spacing="1.5">BATHROOM</text>
+<text x="432" y="226" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,60,80,.5)">Leak · Section B3</text>
+
+<!-- INNER WALLS -->
+<rect x="268" y="31" width="3" height="168" fill="#0d0d12" stroke="rgba(255,255,255,.16)" stroke-width=".5"/>
+<rect x="31" y="198" width="535" height="3" fill="#0d0d12" stroke="rgba(255,255,255,.16)" stroke-width=".5"/>
+<rect x="228" y="198" width="3" height="183" fill="#0d0d12" stroke="rgba(255,255,255,.12)" stroke-width=".5"/>
+<rect x="356" y="198" width="3" height="183" fill="#0d0d12" stroke="rgba(255,255,255,.12)" stroke-width=".5"/>
+<rect x="228" y="220" width="3" height="40" fill="#0d0d12"/>
+<rect x="268" y="160" width="3" height="40" fill="#0d0d12"/>
+<rect x="356" y="220" width="3" height="40" fill="#0d0d12"/>
+<path d="M 231 260 Q 248 260 248 243" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+<path d="M 356 260 Q 340 260 340 243" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+
+<!-- LEGEND -->
+<rect x="580" y="30" width="92" height="200" rx="8" fill="rgba(0,0,0,.45)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+<text x="626" y="50" font-family="Inter,sans-serif" font-size="8.5" font-weight="700" fill="rgba(255,255,255,.5)" text-anchor="middle" letter-spacing="1">SENSORS</text>
+<circle cx="596" cy="70" r="4" fill="#00e87a" filter="url(#glow)">
+  <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
+</circle>
+<text x="605" y="74" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,255,255,.55)">Normal</text>
+<circle cx="596" cy="92" r="4" fill="#4db8ff" filter="url(#glow)"/>
+<text x="605" y="96" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,255,255,.55)">Climate</text>
+<circle cx="596" cy="114" r="4" fill="#ff7a00" filter="url(#glow)"/>
+<text x="605" y="118" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,255,255,.55)">Gas</text>
+<circle cx="596" cy="136" r="4" fill="#ffe240" filter="url(#glow)"/>
+<text x="605" y="140" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,255,255,.55)">Motion</text>
+<circle cx="596" cy="158" r="5" fill="#ff2040" filter="url(#glow)">
+  <animate attributeName="r" values="5;8;5" dur="1.2s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="1;.4;1" dur="1.2s" repeatCount="indefinite"/>
+</circle>
+<text x="605" y="162" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,80,100,.9)" font-weight="700">Leak</text>
+<line x1="584" y1="178" x2="668" y2="178" stroke="rgba(255,255,255,.07)" stroke-width=".8"/>
+<text x="626" y="196" font-family="Inter,sans-serif" font-size="7.5" fill="rgba(255,255,255,.3)" text-anchor="middle">LIVE · 09:41</text>
+
+<rect x="580" y="248" width="92" height="52" rx="8" fill="rgba(0,0,0,.45)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+<text x="626" y="268" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,255,255,.4)" text-anchor="middle" letter-spacing="1">POWER</text>
+<text x="626" y="286" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#ff7a00" text-anchor="middle">3.2kW</text>
+<text x="626" y="298" font-family="Inter,sans-serif" font-size="7.5" fill="rgba(255,120,0,.5)" text-anchor="middle">Peak hour</text>
+
+</svg>
+    </div>
+
+    <!-- Room legend -->
+    <div class="room-legend">
+      <div class="rl-item" onclick="switchTo('home')"><div class="rl-dot" style="background:#00c851;box-shadow:0 0 5px #00c851"></div><span class="rl-name">Living</span></div>
+      <div class="rl-item" onclick="switchTo('home')"><div class="rl-dot" style="background:#00aaff;box-shadow:0 0 5px #00aaff"></div><span class="rl-name">Bedroom</span></div>
+      <div class="rl-item" onclick="switchTo('water')"><div class="rl-dot" style="background:#e8001c;box-shadow:0 0 5px #e8001c;animation:blink-fast 1s infinite"></div><span class="rl-name" style="color:#ff1f3a">Bathroom</span></div>
+      <div class="rl-item" onclick="switchTo('home')"><div class="rl-dot" style="background:#ff6b00;box-shadow:0 0 5px #ff6b00"></div><span class="rl-name">Kitchen</span></div>
+    </div>
+  </div><!-- /house-card -->
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <div class="stat-card w" onclick="switchTo('water')">
+      <div class="sc-icon-row">
+        <span class="sc-ico"><i class="fa-solid fa-tint"></i></span>
+        <span class="sc-badge" style="background:rgba(255,107,0,.15);color:var(--orange)">ALERT</span>
+      </div>
+      <div class="sc-val" style="color:var(--orange)">0.3</div>
+      <div class="sc-unit-lbl">L/min · Flow</div>
+      <div class="sc-mini-bar"><div class="sc-mini-fill" style="width:12%;background:var(--orange)"></div></div>
+    </div>
+    <div class="stat-card a" onclick="switchTo('air')">
+      <div class="sc-icon-row">
+        <span class="sc-ico"><i class="fa-solid fa-wind"></i></span>
+        <span class="sc-badge" style="background:rgba(255,140,0,.12);color:var(--orange2)">HIGH</span>
+      </div>
+      <div class="sc-val" style="color:var(--orange2)">820</div>
+      <div class="sc-unit-lbl">ppm · CO₂</div>
+      <div class="sc-mini-bar"><div class="sc-mini-fill" style="width:72%;background:var(--orange2)"></div></div>
+    </div>
+    <div class="stat-card s" onclick="switchTo('safety')">
+      <div class="sc-icon-row">
+        <span class="sc-ico"><i class="fa-solid fa-fire"></i></span>
+        <span class="sc-badge" style="background:rgba(232,0,28,.15);color:var(--red2)">HOT</span>
+      </div>
+      <div class="sc-val" style="color:var(--red2)">78°</div>
+      <div class="sc-unit-lbl">Socket Temp</div>
+      <div class="sc-mini-bar"><div class="sc-mini-fill" style="width:78%;background:var(--red)"></div></div>
+    </div>
+  </div>
+
+  <!-- Alert banner -->
+  <div class="alert-banner" onclick="switchTo('water')">
+    <div class="alert-pulse"><i class="fa-solid fa-tint"></i></div>
+    <div class="al-text">
+      <h4>Water Leak Detected!</h4>
+      <p>Bathroom · Section B3 · Flow: 0.3 L/min<br>Valve is currently <strong style="color:var(--red2)">Closed</strong></p>
+    </div>
+    <div class="al-arrow">›</div>
+  </div>
+
+</div><!-- /screen-home -->
+
+
+<!-- ══════════════════════════════
+     SCREEN 2 — WATER LEAK
+══════════════════════════════ -->
+<div class="screen" id="screen-water">
+  <div class="topbar">
+    <div class="back-btn" onclick="switchTo('home')">‹</div>
+    <div class="topbar-title">Water Leak</div>
+    <div class="notif-btn" style="background:rgba(232,0,28,.15);border-color:rgba(232,0,28,.35)">
+      <i class="fa-solid fa-bell"></i><div class="notif-badge">1</div>
+    </div>
+  </div>
+
+  <!-- Pipe Hero -->
+  <div class="pipe-hero">
+    <div class="pipe-glow1"></div>
+    <div class="pipe-glow2"></div>
+    <div class="leak-detected-badge">💧 Leak Detected!</div>
+
+    <svg viewBox="0 0 290 95" width="270" style="position:relative;z-index:1" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="pg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#8b4200"/>
+          <stop offset="35%" stop-color="#c45800"/>
+          <stop offset="55%" stop-color="#ff7200"/>
+          <stop offset="100%" stop-color="#6b3000"/>
+        </linearGradient>
+        <radialGradient id="lg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(255,80,0,.7)"/>
+          <stop offset="100%" stop-color="rgba(255,80,0,0)"/>
+        </radialGradient>
+        <filter id="dropShadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(255,80,0,.4)"/></filter>
+      </defs>
+      <!-- Pipe body -->
+      <rect x="15" y="32" width="260" height="34" rx="17" fill="url(#pg)"/>
+      <!-- Pipe shine -->
+      <rect x="15" y="34" width="260" height="12" rx="8" fill="rgba(255,200,100,.12)"/>
+      <!-- Pipe caps -->
+      <rect x="10" y="28" width="14" height="42" rx="7" fill="#a04800"/>
+      <rect x="266" y="28" width="14" height="42" rx="7" fill="#a04800"/>
+      <!-- Leak area glow -->
+      <ellipse cx="145" cy="49" rx="45" ry="17" fill="url(#lg)"/>
+      <!-- Crack -->
+      <path d="M128,49 L138,40 L144,47 L154,38 L160,49" fill="none" stroke="rgba(255,100,0,.95)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#dropShadow)"/>
+      <!-- Water drops -->
+      <ellipse cx="136" cy="68" rx="4.5" ry="6.5" fill="rgba(255,120,0,.85)">
+        <animate attributeName="cy" values="66;90;66" dur="1.1s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;.1;1" dur="1.1s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="147" cy="70" rx="3.5" ry="5.5" fill="rgba(255,90,0,.7)">
+        <animate attributeName="cy" values="68;92;68" dur=".9s" begin=".3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".9;.1;.9" dur=".9s" begin=".3s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="157" cy="72" rx="4" ry="6" fill="rgba(255,140,0,.75)">
+        <animate attributeName="cy" values="70;94;70" dur="1.3s" begin=".6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".8;.1;.8" dur="1.3s" begin=".6s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- Pulse rings -->
+      <ellipse cx="145" cy="49" rx="25" ry="13" fill="none" stroke="rgba(255,80,0,.45)" stroke-width="1.5">
+        <animate attributeName="rx" values="25;38;25" dur="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="ry" values="13;20;13" dur="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".6;0;.6" dur="1.4s" repeatCount="indefinite"/>
+      </ellipse>
+    </svg>
+  </div>
+
+  <!-- Data Card -->
+  <div class="data-card">
+    <div class="data-row">
+      <span class="dr-label">Flow Rate</span>
+      <span class="dr-val ora">0.3 L/min</span>
+    </div>
+    <div class="data-row">
+      <span class="dr-label">Pressure Drop</span>
+      <span class="dr-val red">–0.8 bar</span>
+    </div>
+    <div class="data-row">
+      <span class="dr-label">Valve Status</span>
+      <div class="dr-right">
+        <div class="valve-ic" id="valve-ic">🔒</div>
+        <span class="dr-val red" id="valve-status-text">Closed</span>
+      </div>
+    </div>
+    <div class="data-row">
+      <span class="dr-label">Detection Time</span>
+      <span class="dr-val wht">18 min ago</span>
+    </div>
+    <div class="data-row">
+      <span class="dr-label">Section</span>
+      <span class="dr-val wht">Bathroom · B3</span>
+    </div>
+  </div>
+
+  <!-- Valve current state -->
+  <div class="valve-status-card" id="valve-state-card">
+    <div class="vs-left">
+      <div class="vs-icon" style="background:rgba(232,0,28,.15);border-radius:14px;border:1px solid rgba(232,0,28,.3)" id="valve-state-icon">🔒</div>
+      <div class="vs-info">
+        <h4 id="valve-state-title">Valve — Closed</h4>
+        <p id="valve-state-sub">Tap button below to open & allow flow</p>
+      </div>
+    </div>
+    <div class="tog" id="valve-toggle" onclick="toggleValve()"></div>
+  </div>
+
+  <!-- OPEN / CLOSE DUAL BUTTONS -->
+  <!-- <div class="btn-row">
+    <button class="btn-half close" id="btn-close-valve" onclick="setValve(false)">
+      <span class="btn-ico">🔒</span>
+      <div class="btn-txt">
+        <span class="btn-lbl">Close Valve</span>
+        <span class="btn-sub">Stop water flow</span>
+      </div>
+    </button>
+    <button class="btn-half open" id="btn-open-valve" onclick="setValve(true)">
+      <span class="btn-ico">🔓</span>
+      <div class="btn-txt">
+        <span class="btn-lbl">Open Valve</span>
+        <span class="btn-sub">Restore water</span>
+      </div>
+    </button>
+  </div> -->
+
+</div><!-- /screen-water -->
+
+
+<!-- ══════════════════════════════
+     SCREEN 3 — AIR & ENERGY
+══════════════════════════════ -->
+<div class="screen" id="screen-air">
+  <div class="topbar">
+    <div class="back-btn" onclick="switchTo('home')">‹</div>
+    <div class="topbar-title">Air &amp; Energy</div>
+    <div class="notif-btn"><i class="fa-solid fa-bell"></i><div class="notif-badge" style="background:var(--orange)">!</div></div>
+  </div>
+
+  <!-- CO2 GAUGE -->
+  <div class="gauge-card">
+    <div class="gauge-svg-wrap">
+      <svg viewBox="0 0 220 120" width="220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gaugeTrack" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#00c851"/>
+            <stop offset="30%" stop-color="#ffd200"/>
+            <stop offset="65%" stop-color="#ff8c00"/>
+            <stop offset="100%" stop-color="#e8001c"/>
+          </linearGradient>
+          <filter id="glowF"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <!-- Outer glow ring -->
+        <path d="M 22 108 A 88 88 0 0 1 198 108" fill="none" stroke="rgba(255,100,0,.08)" stroke-width="22" stroke-linecap="round"/>
+        <!-- Track -->
+        <path d="M 22 108 A 88 88 0 0 1 198 108" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14" stroke-linecap="round"/>
+        <!-- Colored gradient fill -->
+        <path d="M 22 108 A 88 88 0 0 1 198 108" fill="none" stroke="url(#gaugeTrack)" stroke-width="14" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="0"/>
+        <!-- Active indicator (needle on gauge) -->
+        <!-- at 820ppm = ~75% → rotate ~135deg from start -->
+        <g transform="rotate(-2,110,108)">
+          <line x1="110" y1="108" x2="190" y2="42" stroke="white" stroke-width="3" stroke-linecap="round" filter="url(#glowF)"/>
+          <circle cx="110" cy="108" r="9" fill="#1c1c26" stroke="white" stroke-width="2.5"/>
+          <circle cx="110" cy="108" r="4" fill="white"/>
+        </g>
+        <!-- Scale labels -->
+        <text x="10" y="118" font-family="Inter" font-size="9" fill="rgba(255,255,255,.3)">400</text>
+        <text x="100" y="18" font-family="Inter" font-size="9" fill="rgba(255,255,255,.3)">700</text>
+        <text x="190" y="118" font-family="Inter" font-size="9" fill="rgba(255,255,255,.3)">1000</text>
+        <!-- CO2 symbol above needle -->
+        <text x="92" y="78" font-family="Inter" font-size="22" font-weight="900" fill="white" letter-spacing="-1">CO</text>
+        <text x="138" y="82" font-family="Inter" font-size="14" font-weight="900" fill="rgba(255,140,0,.9)">2</text>
+      </svg>
+      <div class="gauge-center-info">
+        <div class="co2-big" id="co2-display">820</div>
+        <div class="co2-ppm">ppm</div>
+        <div class="gauge-status-pill">⚠ High CO₂ Level</div>
+      </div>
+      
+    </div>
+    
+  </div><!-- /gauge-card -->
+
+  <!-- FAN CARD — BIG & BEAUTIFUL -->
+  <div class="fan-card">
+    <div class="fan-card-bg-glow"></div>
+    <div class="fan-card-top">
+      <div>
+        <div class="fan-card-title">Ventilation Fan</div>
+        <div class="fan-card-sub" id="fan-sub-label">Auto-triggered · CO₂ high</div>
+      </div>
+      <div class="fan-status-pill" id="fan-pill">
+        <div class="fan-status-dot" id="fan-dot"></div>
+        <span id="fan-pill-label">Active</span>
+      </div>
+    </div>
+
+    <div class="fan-visual-row">
+      <!-- BIG FAN CIRCLE -->
+      <div class="fan-circle" id="fan-circle">
+        <div class="fan-ring-outer"></div>
+        <svg id="fan-svg" class="fan-svg" viewBox="0 0 90 90" width="82" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="bladeFill" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(77,208,255,.95)"/>
+              <stop offset="100%" stop-color="rgba(0,140,255,.8)"/>
+            </radialGradient>
+            <filter id="bladeGlow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <!-- 4 blades -->
+          <path d="M45 45 C43 28 38 14 44 10 C50 6 56 18 52 32 C50 39 47 42 45 45Z"
+            fill="url(#bladeFill)" opacity=".92" filter="url(#bladeGlow)"/>
+          <path d="M45 45 C62 43 76 38 80 44 C84 50 72 56 58 52 C51 50 48 47 45 45Z"
+            fill="url(#bladeFill)" opacity=".88" filter="url(#bladeGlow)"/>
+          <path d="M45 45 C47 62 52 76 46 80 C40 84 34 72 38 58 C40 51 43 48 45 45Z"
+            fill="url(#bladeFill)" opacity=".85" filter="url(#bladeGlow)"/>
+          <path d="M45 45 C28 47 14 52 10 46 C6 40 18 34 32 38 C39 40 42 43 45 45Z"
+            fill="url(#bladeFill)" opacity=".9" filter="url(#bladeGlow)"/>
+          <!-- Center hub -->
+          <circle cx="45" cy="45" r="10" fill="#0c1e34" stroke="rgba(0,200,255,.4)" stroke-width="1.5"/>
+          <circle cx="45" cy="45" r="5" fill="rgba(0,200,255,.7)"/>
+          <circle cx="45" cy="45" r="2" fill="rgba(255,255,255,.9)"/>
+        </svg>
+      </div>
+
+      <!-- Fan stats -->
+      <div class="fan-stats">
+        <div class="fan-speed-label">FAN SPEED</div>
+        <div class="fan-speed-val" id="fan-speed-pct">75%</div>
+        <div class="fan-rpm" id="fan-rpm-val">1350 RPM</div>
+
+        <div class="fan-bar-wrap">
+          <div class="fan-bar-label">
+            <span>0%</span><span id="fan-bar-pct-lbl">75%</span><span>100%</span>
+          </div>
+          <div class="fan-bar-track">
+            <div class="fan-bar-fill" id="fan-bar-fill" style="width:75%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Speed controls -->
+    <div class="fan-controls" id="fan-controls">
+      <div class="fan-ctrl-btn inactive-speed" id="fspd-off" onclick="setFanSpeed(0)">
+        <span class="fan-ctrl-ico">⏹</span>
+        <span>OFF</span>
+      </div>
+      <div class="fan-ctrl-btn inactive-speed" id="fspd-low" onclick="setFanSpeed(25)">
+        <span class="fan-ctrl-ico">🌬</span>
+        <span>LOW</span>
+      </div>
+      <div class="fan-ctrl-btn inactive-speed" id="fspd-med" onclick="setFanSpeed(55)">
+        <span class="fan-ctrl-ico">💨</span>
+        <span>MED</span>
+      </div>
+      <div class="fan-ctrl-btn active-speed" id="fspd-high" onclick="setFanSpeed(75)">
+        <span class="fan-ctrl-ico">🌪</span>
+        <span>HIGH</span>
+      </div>
+      <div class="fan-ctrl-btn inactive-speed" id="fspd-max" onclick="setFanSpeed(100)">
+        <span class="fan-ctrl-ico">⚡</span>
+        <span>MAX</span>
+      </div>
+    </div>
+
+    <!-- ON / OFF row -->
+    <div class="btn-row" style="margin:12px 0 0;">
+      <button class="btn-half off-btn" onclick="setFanSpeed(0)">
+        <span class="btn-ico">⏹</span>
+        <div class="btn-txt"><span class="btn-lbl">Turn OFF</span><span class="btn-sub">Stop ventilation</span></div>
+      </button>
+      <button class="btn-half on-btn" onclick="setFanSpeed(75)">
+        <span class="btn-ico">🌪</span>
+        <div class="btn-txt"><span class="btn-lbl">Turn ON</span><span class="btn-sub">Auto · High speed</span></div>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- <div class="sec-head">AIR METRICS</div>
+  <div class="aq-grid">
+    <div class="aq-card">
+      <div class="aq-icon-box" style="background:rgba(255,149,0,.1)">🌡️</div>
+      <div>
+        <div class="aq-num" style="color:var(--orange)">24°C</div>
+        <div class="aq-lbl">TEMPERATURE</div>
+      </div>
+    </div>
+    <div class="aq-card">
+      <div class="aq-icon-box" style="background:rgba(0,170,255,.1)">💧</div>
+      <div>
+        <div class="aq-num" style="color:var(--blue2)">58%</div>
+        <div class="aq-lbl">HUMIDITY</div>
+      </div>
+    </div>
+    <div class="aq-card">
+      <div class="aq-icon-box" style="background:rgba(0,200,81,.1)">🌿</div>
+      <div>
+        <div class="aq-num" style="color:var(--green)">PM 8</div>
+        <div class="aq-lbl">PARTICULATES</div>
+      </div>
+    </div>
+    <div class="aq-card">
+      <div class="aq-icon-box" style="background:rgba(191,90,242,.1)">🌬️</div>
+      <div>
+        <div class="aq-num" id="co2-mini" style="color:var(--purple)">820</div>
+        <div class="aq-lbl">CO₂ PPM</div>
+      </div>
+    </div> -->
+  <!-- </div> -->
+
+</div>
+
+
+<div class="screen" id="screen-safety">
+  <div class="topbar">
+    <div class="back-btn" onclick="switchTo('home')">‹</div>
+    <div class="topbar-title">Safety Alert</div>
+    <div class="notif-btn" style="background:rgba(232,0,28,.15);border-color:rgba(232,0,28,.35)">
+      <i class="fa-solid fa-bell"></i><div class="notif-badge">2</div>
+    </div>
+  </div>
+
+  <!-- Overheating banner -->
+  <div class="overheat-alert">
+    <div class="ov-icon">🔥</div>
+    <div class="ov-text">
+      <h3>Overheating Detected!</h3>
+      <p>2 sockets exceeding safe threshold (70°C)</p>
+    </div>
+  </div>
+
+  <!-- Sockets -->
+  <div class="socket-row">
+    <div class="socket-card">
+      <div class="socket-ico-wrap">
+        <div class="sock-glow"></div>
+        <svg viewBox="0 0 52 52" width="52" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="10" width="44" height="32" rx="8" fill="#2a1010" stroke="rgba(255,50,0,.4)" stroke-width="1.5"/>
+          <rect x="14" y="19" width="8" height="14" rx="4" fill="#0a0505" stroke="rgba(255,80,0,.35)" stroke-width="1"/>
+          <rect x="30" y="19" width="8" height="14" rx="4" fill="#0a0505" stroke="rgba(255,80,0,.35)" stroke-width="1"/>
+          <rect x="14" y="19" width="8" height="14" rx="4" fill="rgba(255,60,0,.18)"/>
+          <rect x="30" y="19" width="8" height="14" rx="4" fill="rgba(255,60,0,.18)"/>
+          <!-- plug inserted -->
+          <rect x="16" y="43" width="5" height="12" rx="2.5" fill="#4a4a5a" transform="rotate(-8,18,43)"/>
+          <rect x="31" y="43" width="5" height="12" rx="2.5" fill="#4a4a5a" transform="rotate(8,33,43)"/>
+          <!-- heat waves -->
+          <path d="M18 8 Q20 4 18 1" stroke="rgba(255,100,0,.5)" stroke-width="1.2" fill="none" stroke-linecap="round"><animate attributeName="opacity" values="1;0;1" dur=".8s" repeatCount="indefinite"/></path>
+          <path d="M26 7 Q28 3 26 0" stroke="rgba(255,140,0,.5)" stroke-width="1.2" fill="none" stroke-linecap="round"><animate attributeName="opacity" values="1;0;1" dur="1s" begin=".2s" repeatCount="indefinite"/></path>
+          <path d="M34 8 Q36 4 34 1" stroke="rgba(255,100,0,.4)" stroke-width="1.2" fill="none" stroke-linecap="round"><animate attributeName="opacity" values="1;0;1" dur=".9s" begin=".4s" repeatCount="indefinite"/></path>
+        </svg>
+      </div>
+      <div class="socket-lbl">Socket 1</div>
+      <div class="socket-temp" style="color:var(--orange)">75°C</div>
+    </div>
+    <div class="socket-card">
+      <div class="socket-ico-wrap">
+        <div class="sock-glow"></div>
+        <svg viewBox="0 0 52 52" width="52" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="10" width="44" height="32" rx="8" fill="#2a1010" stroke="rgba(255,30,0,.5)" stroke-width="1.5"/>
+          <rect x="14" y="19" width="8" height="14" rx="4" fill="#0a0505" stroke="rgba(255,60,0,.4)" stroke-width="1"/>
+          <rect x="30" y="19" width="8" height="14" rx="4" fill="#0a0505" stroke="rgba(255,60,0,.4)" stroke-width="1"/>
+          <rect x="14" y="19" width="8" height="14" rx="4" fill="rgba(255,30,0,.28)"/>
+          <rect x="30" y="19" width="8" height="14" rx="4" fill="rgba(255,30,0,.28)"/>
+          <rect x="16" y="43" width="5" height="12" rx="2.5" fill="#4a4a5a" transform="rotate(-8,18,43)"/>
+          <rect x="31" y="43" width="5" height="12" rx="2.5" fill="#4a4a5a" transform="rotate(8,33,43)"/>
+          <path d="M18 8 Q20 4 18 1" stroke="rgba(255,80,0,.65)" stroke-width="1.4" fill="none" stroke-linecap="round"><animate attributeName="opacity" values="1;0;1" dur=".7s" repeatCount="indefinite"/></path>
+          <path d="M26 7 Q28 3 26 0" stroke="rgba(255,130,0,.65)" stroke-width="1.4" fill="none" stroke-linecap="round"><animate attributeName="opacity" values="1;0;1" dur=".9s" begin=".15s" repeatCount="indefinite"/></path>
+          <path d="M34 8 Q36 4 34 1" stroke="rgba(255,80,0,.5)" stroke-width="1.4" fill="none" stroke-linecap="round"><animate attributeName="opacity" values="1;0;1" dur=".8s" begin=".35s" repeatCount="indefinite"/></path>
+        </svg>
+      </div>
+      <div class="socket-lbl">Socket 2</div>
+      <div class="socket-temp" style="color:var(--red2)">78°C</div>
+    </div>
+  </div>
+
+  <!-- Power off ON / OFF buttons -->
+  <div class="sec-head">POWER CONTROL</div>
+  <div class="btn-row">
+    <button class="btn-half off-btn" id="btn-power-on" onclick="setPower(true)">
+      <span class="btn-ico">⚡</span>
+      <div class="btn-txt">
+        <span class="btn-lbl">Power ON</span>
+        <span class="btn-sub">Restore lines</span>
+      </div>
+    </button>
+    <button class="btn-half close" id="btn-power-off" onclick="setPower(false)" style="background:linear-gradient(135deg,#b0001a,#e8001c);box-shadow:0 5px 22px rgba(232,0,28,.4)">
+      <span class="btn-ico">⏻</span>
+      <div class="btn-txt">
+        <span class="btn-lbl">Power OFF</span>
+        <span class="btn-sub">Cut affected lines</span>
+      </div>
+    </button>
+  </div>
+
+  <div class="alerts-summary">
+    <div class="as-left">
+      <p>Alerts This Month</p>
+      <h3>Safety Incidents</h3>
+      <div class="tags-row">
+        <span class="tag crit">2 CRITICAL</span>
+        <span class="tag warn">3 WARNING</span>
+      </div>
+    </div>
+    <div class="as-big">5</div>
+  </div>
+
+</div>
+
+
+</div>
+<div id="bottomnav">
+  <div class="nav-item active" id="nav-home" onclick="switchTo('home')">
+    <div class="nav-icon"><i class="fa-solid fa-house"></i></div>
+    <span class="nav-lbl">Home</span>
+  </div>
+  <div class="nav-item" id="nav-water" onclick="switchTo('water')">
+    <div class="nav-icon"><i class="fa-solid fa-tint"></i></div>
+    <span class="nav-lbl">Water</span>
+    <div class="nav-badge show"></div>
+  </div>
+  <div class="nav-item" id="nav-air" onclick="switchTo('air')">
+    <div class="nav-icon"><i class="fa-solid fa-wind"></i></div>
+    <span class="nav-lbl">Air &amp; Energy</span>
+  </div>
+  <div class="nav-item" id="nav-safety" onclick="switchTo('safety')">
+    <div class="nav-icon"><i class="fa-solid fa-shield-alt"></i></div>
+    <span class="nav-lbl">Safety</span>
+    <div class="nav-badge show"></div>
+  </div>
+  
+</div>
+
+</div>
+<script src="./script.js"></script>
+
+</body>
+</html>
