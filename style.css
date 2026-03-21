@@ -20,7 +20,7 @@ html,body{
 
 * {
   -webkit-tap-highlight-color:transparent;
-  /* background:linear-gradient(135deg,#08080f 0%,#0d0d16 100%); */
+  background:linear-gradient(135deg,#08080f 0%,#0d0d16 100%);
 }
 
 /* ───── PHONE SHELL ───── */
