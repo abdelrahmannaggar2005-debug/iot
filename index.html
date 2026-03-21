@@ -521,48 +521,113 @@
   </div>
 
   <!-- CO2 GAUGE -->
-  <div class="gauge-card">
-    <div class="gauge-svg-wrap">
-      <svg viewBox="0 0 220 120" width="220" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="gaugeTrack" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#00c851"/>
-            <stop offset="30%" stop-color="#ffd200"/>
-            <stop offset="65%" stop-color="#ff8c00"/>
-            <stop offset="100%" stop-color="#e8001c"/>
-          </linearGradient>
-          <filter id="glowF"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
-        <!-- Outer glow ring -->
-        <path d="M 22 108 A 88 88 0 0 1 198 108" fill="none" stroke="rgba(255,100,0,.08)" stroke-width="22" stroke-linecap="round"/>
-        <!-- Track -->
-        <path d="M 22 108 A 88 88 0 0 1 198 108" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14" stroke-linecap="round"/>
-        <!-- Colored gradient fill -->
-        <path d="M 22 108 A 88 88 0 0 1 198 108" fill="none" stroke="url(#gaugeTrack)" stroke-width="14" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="0"/>
-        <!-- Active indicator (needle on gauge) -->
-        <!-- at 820ppm = ~75% → rotate ~135deg from start -->
-        <g transform="rotate(-2,110,108)">
-          <line x1="110" y1="108" x2="190" y2="42" stroke="white" stroke-width="3" stroke-linecap="round" filter="url(#glowF)"/>
-          <circle cx="110" cy="108" r="9" fill="#1c1c26" stroke="white" stroke-width="2.5"/>
-          <circle cx="110" cy="108" r="4" fill="white"/>
-        </g>
-        <!-- Scale labels -->
-        <text x="10" y="118" font-family="Inter" font-size="9" fill="rgba(255,255,255,.3)">400</text>
-        <text x="100" y="18" font-family="Inter" font-size="9" fill="rgba(255,255,255,.3)">700</text>
-        <text x="190" y="118" font-family="Inter" font-size="9" fill="rgba(255,255,255,.3)">1000</text>
-        <!-- CO2 symbol above needle -->
-        <text x="92" y="78" font-family="Inter" font-size="22" font-weight="900" fill="white" letter-spacing="-1">CO</text>
-        <text x="138" y="82" font-family="Inter" font-size="14" font-weight="900" fill="rgba(255,140,0,.9)">2</text>
-      </svg>
-      <div class="gauge-center-info">
-        <div class="co2-big" id="co2-display">820</div>
-        <div class="co2-ppm">ppm</div>
-        <div class="gauge-status-pill">⚠ High CO₂ Level</div>
-      </div>
-      
+  
+<div class="gauge-wrap">
+  <div class="gauge-top">
+    <span class="gauge-label">CO₂ MONITOR</span>
+    <span class="gauge-live"><span class="live-dot"></span>LIVE</span>
+  </div>
+
+  <div class="gauge-svg-area">
+    <svg id="gauge-svg" viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="arc-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#00e87a"/>
+          <stop offset="28%"  stop-color="#ffd200"/>
+          <stop offset="58%"  stop-color="#ff8c00"/>
+          <stop offset="100%" stop-color="#e8001c"/>
+        </linearGradient>
+        <linearGradient id="needle-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,.4)"/>
+        </linearGradient>
+        <filter id="neon">
+          <feGaussianBlur stdDeviation="3" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="softglow">
+          <feGaussianBlur stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <clipPath id="arc-clip">
+          <path id="arc-clip-path" d="M 30 165 A 130 130 0 0 1 290 165"/>
+        </clipPath>
+      </defs>
+
+      <!-- Outer decorative ring segments -->
+      <g opacity=".18">
+        <path d="M 30 165 A 130 130 0 0 1 290 165" fill="none" stroke="url(#arc-grad)" stroke-width="2" stroke-linecap="round"/>
+      </g>
+
+      <!-- Background track (thick) -->
+      <path d="M 38 165 A 122 122 0 0 1 282 165" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="22" stroke-linecap="round"/>
+
+      <!-- Colored gradient arc (full) -->
+      <path d="M 38 165 A 122 122 0 0 1 282 165" fill="none" stroke="url(#arc-grad)" stroke-width="22" stroke-linecap="round" stroke-dasharray="383" stroke-dashoffset="0" opacity=".25"/>
+
+      <!-- Active arc (clipped to value) -->
+      <path id="active-arc" d="M 38 165 A 122 122 0 0 1 282 165" fill="none" stroke="url(#arc-grad)" stroke-width="22" stroke-linecap="round" stroke-dasharray="383" stroke-dashoffset="96"/>
+
+      <!-- Tick marks -->
+      <g id="ticks" stroke="rgba(255,255,255,.2)" stroke-width="1.5" stroke-linecap="round"></g>
+
+      <!-- Needle shadow -->
+      <line id="needle-shadow" x1="160" y1="165" x2="246" y2="96"
+        stroke="rgba(0,0,0,.3)" stroke-width="5" stroke-linecap="round"
+        transform-origin="160 165" opacity=".5"/>
+
+      <!-- Needle -->
+      <line id="needle-line" x1="160" y1="165" x2="246" y2="96"
+        stroke="url(#needle-grad)" stroke-width="3" stroke-linecap="round"
+        transform-origin="160 165" filter="url(#neon)"/>
+
+      <!-- Center hub outer ring -->
+      <circle cx="160" cy="165" r="14" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+      <!-- Center hub -->
+      <circle cx="160" cy="165" r="10" fill="#1c1c28" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+      <circle cx="160" cy="165" r="4"  fill="rgba(255,255,255,.9)"/>
+
+      <!-- Scale labels -->
+      <text x="26"  y="182" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="rgba(0,230,120,.6)" text-anchor="middle">400</text>
+      <text x="160" y="28"  font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="rgba(255,210,0,.6)" text-anchor="middle">700</text>
+      <text x="296" y="182" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="rgba(232,0,28,.7)" text-anchor="middle">1000</text>
+
+      <!-- CO2 formula top -->
+      <text x="132" y="120" font-family="Inter,sans-serif" font-size="28" font-weight="900" fill="rgba(255,255,255,.12)" letter-spacing="-1">CO₂</text>
+    </svg>
+
+    <div class="gauge-center">
+      <div class="co2-value" id="co2-val">820</div>
+      <div class="co2-unit">PPM</div>
     </div>
-    
-  </div><!-- /gauge-card -->
+  </div>
+
+  <div class="gauge-bottom">
+    <div class="status-pill warning" id="status-pill">
+      <span class="pill-dot warning" id="pill-dot"></span>
+      <span id="status-text">High CO₂ level — ventilate now</span>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric-box">
+        <div class="metric-val" id="m-avg" style="color:#ffd200">780</div>
+        <div class="metric-lbl">1H AVG</div>
+        <div class="trend-bar"><div class="trend-fill" id="avg-bar" style="width:60%;background:#ffd200"></div></div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-val" id="m-peak" style="color:#ff8c00">920</div>
+        <div class="metric-lbl">PEAK</div>
+        <div class="trend-bar"><div class="trend-fill" id="peak-bar" style="width:80%;background:#ff8c00"></div></div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-val" id="m-delta" style="color:#ff2d55">+42</div>
+        <div class="metric-lbl">TREND</div>
+        <div class="trend-bar"><div class="trend-fill" id="delta-bar" style="width:72%;background:#ff2d55"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
   <!-- FAN CARD — BIG & BEAUTIFUL -->
   <div class="fan-card">

@@ -163,3 +163,125 @@ setPower(true);
 document.getElementById('btn-close-valve').style.opacity = '0.5';
 document.getElementById('btn-open-valve').style.opacity = '1';
 document.getElementById('btn-power-on').style.opacity = '0.5';
+
+
+(function(){
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const cx = 160, cy = 165, R = 122;
+  const startDeg = 180, endDeg = 0;
+  const minPPM = 400, maxPPM = 1000;
+  const fullArc = 383;
+
+  function degToRad(d){ return d * Math.PI / 180; }
+
+  function ppmToAngle(ppm){
+    const t = Math.min(1, Math.max(0, (ppm - minPPM) / (maxPPM - minPPM)));
+    return 180 - t * 180;
+  }
+
+  function angleToXY(deg, r){
+    const rad = degToRad(deg);
+    return { x: cx + r * Math.cos(rad), y: cy - r * Math.sin(rad) };
+  }
+
+  // Draw ticks
+  const ticksG = document.getElementById('ticks');
+  for(let i = 0; i <= 10; i++){
+    const deg = 180 - i * 18;
+    const inner = angleToXY(deg, R - 18);
+    const outer = angleToXY(deg, R - (i % 5 === 0 ? 4 : 8));
+    const line = document.createElementNS(SVG_NS, 'line');
+    line.setAttribute('x1', inner.x); line.setAttribute('y1', inner.y);
+    line.setAttribute('x2', outer.x); line.setAttribute('y2', outer.y);
+    line.setAttribute('stroke-width', i % 5 === 0 ? '2' : '1');
+    line.setAttribute('stroke-opacity', i % 5 === 0 ? '.45' : '.2');
+    ticksG.appendChild(line);
+  }
+
+  let currentPPM = 820;
+  let targetPPM = 820;
+  let animFrame;
+
+  function getColor(ppm){
+    if(ppm < 600) return {color:'#00e87a', cls:'good',    txt:'Good air quality'};
+    if(ppm < 800) return {color:'#ffd200', cls:'warning', txt:'Moderate CO₂ level'};
+    if(ppm < 950) return {color:'#ff8c00', cls:'warning', txt:'High CO₂ — ventilate now'};
+    return               {color:'#ff2d55', cls:'danger',  txt:'Danger — evacuate area'};
+  }
+
+  function updateGauge(ppm){
+    const t = Math.min(1, Math.max(0, (ppm - minPPM) / (maxPPM - minPPM)));
+    const offset = fullArc * (1 - t);
+    const deg = ppmToAngle(ppm);
+    const tip = angleToXY(deg, R - 18);
+
+    document.getElementById('active-arc').setAttribute('stroke-dashoffset', offset.toFixed(1));
+    document.getElementById('needle-line').setAttribute('x2', tip.x.toFixed(1));
+    document.getElementById('needle-line').setAttribute('y2', tip.y.toFixed(1));
+    document.getElementById('needle-shadow').setAttribute('x2', (tip.x + 1.5).toFixed(1));
+    document.getElementById('needle-shadow').setAttribute('y2', (tip.y + 2).toFixed(1));
+    document.getElementById('co2-val').textContent = Math.round(ppm);
+
+    const info = getColor(ppm);
+    const pill = document.getElementById('status-pill');
+    const dot  = document.getElementById('pill-dot');
+    const txt  = document.getElementById('status-text');
+    pill.className = 'status-pill ' + info.cls;
+    dot.className  = 'pill-dot '   + info.cls;
+    txt.textContent = info.txt;
+    document.getElementById('needle-line').setAttribute('stroke', 'url(#needle-grad)');
+  }
+
+  function animateTo(ppm){
+    cancelAnimationFrame(animFrame);
+    const start = currentPPM;
+    const diff = ppm - start;
+    const dur = 900;
+    const t0 = performance.now();
+    function step(now){
+      const p = Math.min(1, (now - t0) / dur);
+      const ease = 1 - Math.pow(1 - p, 3);
+      currentPPM = start + diff * ease;
+      updateGauge(currentPPM);
+      if(p < 1) animFrame = requestAnimationFrame(step);
+      else currentPPM = ppm;
+    }
+    animFrame = requestAnimationFrame(step);
+  }
+
+  // Initial render
+  updateGauge(820);
+
+  // Live simulation
+  let peak = 820;
+  const history = [820];
+  setInterval(function(){
+    const delta = (Math.random() - 0.38) * 40;
+    targetPPM = Math.min(1000, Math.max(400, targetPPM + delta));
+    if(targetPPM > peak) peak = targetPPM;
+
+    animateTo(targetPPM);
+
+    history.push(Math.round(targetPPM));
+    if(history.length > 60) history.shift();
+    const avg = Math.round(history.reduce((a,b)=>a+b,0)/history.length);
+    const d = Math.round(targetPPM - history[Math.max(0,history.length-6)]);
+
+    document.getElementById('m-avg').textContent   = avg;
+    document.getElementById('m-peak').textContent  = Math.round(peak);
+    document.getElementById('m-delta').textContent = (d >= 0 ? '+' : '') + d;
+
+    const avgPct  = ((avg  - 400) / 600 * 100).toFixed(0);
+    const pkPct   = ((peak - 400) / 600 * 100).toFixed(0);
+    const dPct    = Math.min(100, Math.abs(d) / 100 * 100).toFixed(0);
+    document.getElementById('avg-bar').style.width   = avgPct  + '%';
+    document.getElementById('peak-bar').style.width  = pkPct   + '%';
+    document.getElementById('delta-bar').style.width = dPct    + '%';
+
+    const avgColor = targetPPM < 600 ? '#00e87a' : targetPPM < 800 ? '#ffd200' : '#ff8c00';
+    document.getElementById('m-avg').style.color = avgColor;
+    document.getElementById('avg-bar').style.background = avgColor;
+    document.getElementById('m-delta').style.color = d > 0 ? '#ff2d55' : '#00e87a';
+    document.getElementById('delta-bar').style.background = d > 0 ? '#ff2d55' : '#00e87a';
+  }, 3000);
+})();
